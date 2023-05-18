@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { baseUrl } from '../../shared/baseUrl';
 
-export const fetchPartners = createAsyncThunk(
-    'partners/fetchPartners',
+export const fetchFoods = createAsyncThunk(
+    'foods/fetchFoods',
     async () => {
-        const response = await fetch(baseUrl + 'partners');
+        const response = await fetch(baseUrl + 'foods');
         if (!response.ok) {
             return Promise.reject(
                 'Unable to fetch, status: ' + response.status
@@ -15,21 +15,21 @@ export const fetchPartners = createAsyncThunk(
     }
 );
 
-const partnersSlice = createSlice({
-    name: 'partners',
-    initialState: { isLoading: true, errMess: null, partnersArray: [] },
+const foodsSlice = createSlice({
+    name: 'foods',
+    initialState: { isLoading: true, errMess: null, foodsArray: [] },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchPartners.pending, (state) => {
+            .addCase(fetchFoods.pending, (state) => {
                 state.isLoading = true;
             })
-            .addCase(fetchPartners.fulfilled, (state, action) => {
+            .addCase(fetchFoods.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.errMess = null;
-                state.partnersArray = action.payload;
+                state.foodsArray = action.payload;
             })
-            .addCase(fetchPartners.rejected, (state, action) => {
+            .addCase(fetchFoods.rejected, (state, action) => {
                 state.isLoading = false;
                 state.errMess = action.error
                     ? action.error.message
@@ -38,4 +38,4 @@ const partnersSlice = createSlice({
     }
 });
 
-export const partnersReducer = partnersSlice.reducer;
+export const  foodsReducer = foodsSlice.reducer;

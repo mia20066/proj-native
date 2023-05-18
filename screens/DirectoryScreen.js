@@ -3,37 +3,44 @@ import { Tile } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from '../components/LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 const DirectoryScreen = ({ navigation }) => {
-    const campsites = useSelector((state) => state.campsites);
+    const foods = useSelector((state) => state.foods);
 
-    if (campsites.isLoading) {
+    if (foods.isLoading) {
         return <Loading />;
     }
-    if (campsites.errMess) {
+    if (foods.errMess) {
         return (
             <View>
-                <Text>{campsites.errMess}</Text>
+                <Text>{foods.errMess}</Text>
             </View>
         );
     }
 
-    const renderDirectoryItem = ({ item: campsite }) => {
+    const renderDirectoryItem = ({ item: food }) => {
         return (
+            <Animatable.View
+                animation='fadeInRightBig'
+                duration={2000}
+             
+                >
             <Tile
-                title={campsite.name}
-                caption={campsite.description}
+                title={food.name}
+                caption={food.description}
                 featured
                 onPress={() =>
-                    navigation.navigate('CampsiteInfo', { campsite })
+                    navigation.navigate('FoodInfo', { food })
                 }
-                imageSrc={{ uri: baseUrl + campsite.image }}
+                imageSrc={{ uri: baseUrl + food.image }}
             />
+            </Animatable.View>
         );
     };
     return (
         <FlatList
-            data={campsites.campsitesArray}
+            data={foods.foodsArray}
             renderItem={renderDirectoryItem}
             keyExtractor={(item) => item.id.toString()}
         />
